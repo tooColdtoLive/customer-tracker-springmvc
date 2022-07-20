@@ -66,4 +66,8 @@
     <!-- for @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
+    <!-- Add support for reading web resources: css, images, js, etc ... -->
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+    <!-- location = physical directories, ** in mapping = taking all lower level directories and files -->
+
 </beans>
