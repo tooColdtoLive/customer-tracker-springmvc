@@ -7,9 +7,40 @@ html, body{
 }
 
 #header{
-    margin-left: 10px
+    padding: 20px 0 10px 0;
+    margin-left: 30px
+}
+
+#header h2{
+    display: inline;
+}
+
+#logo {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+#wrapper{
+    border-bottom: solid rgb(10, 4, 66);
 }
 
 #container{
     padding: 0px 60px 0px 60px;
+}
+
+.tableTitle{
+    margin: 15px 0 15px 0 ;
+}
+
+.colTitle{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.customer-row{
+    padding-top: 10px;
+    border-bottom: 2px solid rgb(5, 16, 87);
+    font-size: 18px;
 }
