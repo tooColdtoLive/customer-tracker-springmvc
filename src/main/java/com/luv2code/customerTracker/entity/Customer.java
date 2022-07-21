@@ -54,6 +54,10 @@ public class Customer {
         return id;
     }
 
+    public void setId(int id) { // required for doing update on existing record objects, for hidden field id
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }

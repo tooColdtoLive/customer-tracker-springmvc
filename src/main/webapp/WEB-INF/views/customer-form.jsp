@@ -20,6 +20,8 @@
             <h3 class="tableTitle">Add Customer</h3>
 
             <form:form action="saveCustomer" modelAttribute="customer" method="POST">
+                <form:hidden path="id" />   <%-- without the hidden field, id will be lost when form submitted, as setter is run --%>
+
                 <div class="form-group">
                     <label for="inputFirstName">First Name</label>
                     <form:input id="inputFirstName" path="firstName" type="text" class="form-control" placeholder="Enter first name" />

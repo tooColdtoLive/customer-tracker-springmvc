@@ -34,9 +34,16 @@
                         <div class="col">
                             <p class="colTitle">Email</p>
                         </div>
+                        <div class="col">
+                            <p class="colTitle">Action</p>
+                        </div>
                     </div>
 
                     <c:forEach var="customer" items="${customers}">
+                        <c:url var="updateLink" value="/customer/showUpdateForm">
+                            <c:param name="customerId" value="${customer.id}"/>
+                        </c:url>
+
                         <div class="row customer-row">
                             <div class="col">
                                 <p>${customer.firstName}</p>
@@ -46,6 +53,9 @@
                             </div>
                             <div class="col">
                                 <p>${customer.email}</p>
+                            </div>
+                            <div class="col">
+                                <a href="${updateLink}">Update</a>
                             </div>
                         </div>
                     </c:forEach>

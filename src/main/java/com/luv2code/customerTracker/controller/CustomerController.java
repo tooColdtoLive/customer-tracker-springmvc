@@ -47,13 +47,20 @@ public class CustomerController {
         return "customer-form";
     }
 
+    @GetMapping("/showUpdateForm")
+    public String showUpdateForm(@RequestParam("customerId") int customerId, Model model){  // retrieving param in the url
+        model.addAttribute("customer", customerService.getCustomer(customerId));
+
+        return "customer-form";
+    }
+
     @PostMapping("/saveCustomer")
-    public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer, // @Valid to trigger validation for the object
+    public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer,
                                BindingResult bindingResult){
         if (bindingResult.hasErrors()) {    // not functioning
-            return "customer-form"; // return to the form with error message of validation
+            return "customer-form";
         } else {
-            customerService.saveCustomer(customer);
+            customerService.saveOrUpdateCustomer(customer);
             return "redirect:/customer/list";
         }
     }
