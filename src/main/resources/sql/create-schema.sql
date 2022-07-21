@@ -5,6 +5,8 @@ USE `customer_tracker`;
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `last_modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
@@ -14,7 +16,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 
-INSERT INTO `customer` VALUES
+INSERT INTO `customer` (id, first_name, last_name, email) VALUES
 	(1,'David','Adams','david@luv2code.com'),
 	(2,'John','Doe','john@luv2code.com'),
 	(3,'Ajay','Rao','ajay@luv2code.com'),

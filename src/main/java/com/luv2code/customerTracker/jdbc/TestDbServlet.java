@@ -18,7 +18,7 @@ public class TestDbServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/customer_tracker?useSSL=false&serverTimezone=GMT";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/customer_tracker?useSSL=false&serverTimezone=UTC";
         String userId = "customerTracker";
         String password = "customerTracker";
 

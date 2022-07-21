@@ -21,6 +21,8 @@
 
             <form:form action="saveCustomer" modelAttribute="customer" method="POST">
                 <form:hidden path="id" />   <%-- without the hidden field, id will be lost when form submitted, as setter is run --%>
+                <%-- <form:input path="createdOn" type="LocalDateTime"/> --%> <%-- not working, provided correct value but being mutated in form --%>
+                                                                              <%-- createdOn will be cleared once record updated, fkkkkkkkkkkk --%>
 
                 <div class="form-group">
                     <label for="inputFirstName">First Name</label>

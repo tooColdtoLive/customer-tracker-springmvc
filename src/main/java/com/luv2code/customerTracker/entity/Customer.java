@@ -1,10 +1,12 @@
 package com.luv2code.customerTracker.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer")
@@ -14,6 +16,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) // to deal with conversion exception, failed so far
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "last_modified")
+    private LocalDateTime lastModified;
 
     @NotNull(message = "Required field missing")
     @Pattern(regexp = "^[a-zA-Z ]", message = "Invalid character")
@@ -44,10 +53,23 @@ public class Customer {
     public String toString() {
         return "Customer{" +
                 "id=" + id +
+                ", createdOn=" + createdOn +
+                ", lastModified=" + lastModified +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @PrePersist // executed before creating record in database
+    protected void setCreatedOn(){
+        this.createdOn = LocalDateTime.now();
+        this.lastModified = LocalDateTime.now();
+    }
+
+    @PreUpdate  // executed before everytime saving into database
+    protected void setLastModified(){
+        this.lastModified = LocalDateTime.now();
     }
 
     public int getId() {
@@ -56,6 +78,22 @@ public class Customer {
 
     public void setId(int id) { // required for doing update on existing record objects, for hidden field id
         this.id = id;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
     }
 
     public String getFirstName() {
