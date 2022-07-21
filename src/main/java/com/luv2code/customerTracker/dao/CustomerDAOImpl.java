@@ -17,13 +17,11 @@ public class CustomerDAOImpl implements CustomerDAO{
     private SessionFactory sessionFactory;
 
     @Override
-    @Transactional
     public void saveCustomer(Customer customer) {
         sessionFactory.getCurrentSession().save(customer);
     }
 
     @Override
-    @Transactional
     public void saveCustomers(List<Customer> customers) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -33,7 +31,6 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    @Transactional  // to auto begin and to close a session transaction
     public List<Customer> getCustomers() {
 
         return sessionFactory.getCurrentSession().createQuery("from Customer", Customer.class).getResultList();

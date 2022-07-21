@@ -12,7 +12,7 @@
         <body>
             <div id="wrapper">
                 <div id="header">
-                    <img id="logo" src="../resources/img/crm_logo.png" alt="CRM LOGO">
+                    <img id="logo" src="../resources/img/crm_logo.png" alt="CRM">
                     <h2>CRM - Customer Relationship Management</h2>
                 </div>
             </div>
