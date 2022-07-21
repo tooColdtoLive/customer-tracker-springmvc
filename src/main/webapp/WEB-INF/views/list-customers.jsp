@@ -18,6 +18,10 @@
             </div>
 
             <div id="container">
+                <div>
+                    <input id="addCustomerBtn" class="btn btn-dark btn-lg"
+                    type="button" value="Add Customer" onclick="window.location.href='showAddForm'; return false;" />
+                </div>
                 <div id="content">
                     <h3 class="tableTitle">Customer List</h3>
                     <div class="row">

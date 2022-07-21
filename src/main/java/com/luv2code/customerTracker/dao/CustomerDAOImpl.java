@@ -33,6 +33,6 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public List<Customer> getCustomers() {
 
-        return sessionFactory.getCurrentSession().createQuery("from Customer", Customer.class).getResultList();
+        return sessionFactory.getCurrentSession().createQuery("from Customer order by lastName", Customer.class).getResultList();
     }
 }

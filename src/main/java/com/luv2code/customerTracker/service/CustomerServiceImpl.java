@@ -16,6 +16,18 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerDAO customerDAO;
 
     @Override
+    @Transactional
+    public void saveCustomer(Customer customer) {
+        customerDAO.saveCustomer(customer);
+    }
+
+    @Override
+    @Transactional
+    public void saveCustomers(List<Customer> customers) {
+        customerDAO.saveCustomers(customers);
+    }
+
+    @Override
     @Transactional  // to auto begin and to close a session transaction
     // @Transactional moved from DAO to service layer, to ensure DAO depends on service
     // also enable running multiple DAO methods in same transaction, good for rollback
