@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
     @GetMapping("/list")
-    public String listCustomer(Model model, @RequestParam(value="sort", required = false) String sort){
+    public String listCustomer(Model model, @RequestParam(value="sort", required = false) String sort){ // @RequestParam should be String, as primitive variable cannot accept null
         List<Customer> customers = null;
 
         if(sort != null) {
