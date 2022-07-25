@@ -2,6 +2,7 @@ package com.luv2code.customerTracker.service;
 
 import com.luv2code.customerTracker.dao.CustomerDAO;
 import com.luv2code.customerTracker.entity.Customer;
+import com.luv2code.customerTracker.util.CustomerSortUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +35,17 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    @Transactional
+    public List<Customer> getCustomers() {
+        return getCustomers(CustomerSortUtil.LAST_NAME);
+    }
+
+    @Override
     @Transactional  // to auto begin and to close a session transaction
     // @Transactional moved from DAO to service layer, to ensure DAO depends on service
     // also enable running multiple DAO methods in same transaction, good for rollback
-    public List<Customer> getCustomers() {
-        return customerDAO.getCustomers();
+    public List<Customer> getCustomers(int sort) {
+        return customerDAO.getCustomers(sort);
     }
 
     @Override
@@ -57,5 +64,11 @@ public class CustomerServiceImpl implements CustomerService{
     @Transactional
     public void deleteCustomers(List<Customer> customers) {
         customerDAO.deleteCustomers(customers);
+    }
+
+    @Override
+    @Transactional
+    public List<Customer> searchCustomer(String searchType, String searchString) {
+        return customerDAO.searchCustomer(searchType, searchString);
     }
 }

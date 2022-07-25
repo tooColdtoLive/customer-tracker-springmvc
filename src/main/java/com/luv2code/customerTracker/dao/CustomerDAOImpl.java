@@ -1,14 +1,20 @@
 package com.luv2code.customerTracker.dao;
 
 import com.luv2code.customerTracker.entity.Customer;
+import com.luv2code.customerTracker.util.CustomerSortUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Locale;
 
 @Repository     // subclass of @Component, for Data Access Objects,
                 // apply auto scanning, translating JDBC checked exceptions into unchecked exceptions
@@ -37,9 +43,26 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    public List<Customer> getCustomers() {
+    public List<Customer> getCustomers(int sort) {
 
-        return sessionFactory.getCurrentSession().createQuery("from Customer order by lastName", Customer.class).getResultList();
+        String sortColumn = null;
+
+        switch (sort){
+            case CustomerSortUtil.FIRST_NAME :
+                sortColumn = "firstName";
+                break;
+
+            case CustomerSortUtil.EMAIL :
+                sortColumn = "email";
+                break;
+
+            case CustomerSortUtil.LAST_NAME :
+            default:
+                sortColumn = "lastName";
+                break;
+        }
+
+        return sessionFactory.getCurrentSession().createQuery("from Customer order by " + sortColumn, Customer.class).getResultList();
     }
 
     @Override
@@ -64,5 +87,22 @@ public class CustomerDAOImpl implements CustomerDAO{
         for(Customer customer : customers){
             session.remove(customer);
         }
+    }
+
+    @Override
+    public List<Customer> searchCustomer(String searchType, String searchString) {
+        Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
+        Root<Customer> root = criteriaQuery.from(Customer.class);
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("lastName")));
+
+        if(searchString != null && !searchString.trim().isEmpty()) {
+            criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.lower(root.get(searchType)),
+                    "%" + searchString.toLowerCase() + "%"));
+        }
+
+       return session.createQuery(criteriaQuery).getResultList();
     }
 }

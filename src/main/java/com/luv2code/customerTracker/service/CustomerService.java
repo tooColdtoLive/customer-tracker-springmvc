@@ -14,9 +14,13 @@ public interface CustomerService {
 
     List<Customer> getCustomers();
 
+    List<Customer> getCustomers(int sort);
+
     void deleteCustomer(int customerId);
 
     void deleteCustomer(Customer customer);
 
     void deleteCustomers(List<Customer> customers);
+
+    List<Customer> searchCustomer(String searchType, String searchString);
 }

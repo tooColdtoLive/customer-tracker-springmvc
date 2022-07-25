@@ -32,8 +32,14 @@ public class CustomerController {
     }
 
     @GetMapping("/list")
-    public String listCustomer(Model model){
-        List<Customer> customers = customerService.getCustomers();
+    public String listCustomer(Model model, @RequestParam(value="sort", required = false) String sort){
+        List<Customer> customers = null;
+
+        if(sort != null) {
+            customers = customerService.getCustomers(Integer.parseInt(sort));
+        }else{
+            customers = customerService.getCustomers();
+        }
 
         model.addAttribute("customers", customers);
 
@@ -71,6 +77,16 @@ public class CustomerController {
     public String deleteCustomer(@RequestParam("customerId") int customerId){
         customerService.deleteCustomer(customerId);
         return "redirect:/customer/list";
+    }
+
+    @GetMapping("/searchCustomer")
+    public String searchCustomer(@RequestParam(value="searchType") String searchType, @RequestParam(value="searchString", required=false) String searchString, Model model){
+        // @RequestParam for any value of form, required=false so that accepts null, delegate the handling
+        List<Customer> customers = customerService.searchCustomer(searchType, searchString);
+
+        model.addAttribute("customers", customers);
+
+        return "list-customers";
     }
 
 }

@@ -11,7 +11,7 @@
     <Loggers>
 
         <!-- <logger name="com.luv2code.hibernatedemo.demo" level="TRACE"/> -->
-        <!-- logger name="org.hibernate.SQL" level="DEBUG" /> -->
+        <!-- <logger name="org.hibernate.SQL" level="DEBUG" /> -->
         <!-- <logger name="org.hibernate.type" level="TRACE" /> -->
 
         <Root level="info">

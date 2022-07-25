@@ -6,6 +6,10 @@
 html, body{
 }
 
+.btn{
+    margin: 5px 0 5px 0;
+}
+
 #header{
     padding: 20px 0 10px 0;
     margin-left: 30px
@@ -34,8 +38,28 @@ html, body{
     margin: 15px 0 15px 0 ;
 }
 
+#searchType{
+
+}
+
+#searchString{
+    margin-left: 5px;
+}
+
+#showAllBtn{
+    margin-left: 20px;
+}
+
+.inlineBlock{
+    display:inline-block;
+}
+
 .tableTitle{
     margin: 15px 0 15px 0 ;
+}
+
+.colTitleRow{
+    margin-top: 20px;
 }
 
 .colTitle{

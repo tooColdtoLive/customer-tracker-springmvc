@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<%@ page import ="com.luv2code.customerTracker.util.*" %>
 
 <!DOCTYPE html>
     <html>
@@ -24,15 +27,49 @@
                 </div>
                 <div id="content">
                     <h3 class="tableTitle">Customer List</h3>
-                    <div class="row">
+
+                    <form:form action="searchCustomer" method="GET">
+                        <label for="searchCriteria">Search Customer</label>
+                        <div id="searchCriteria" >
+                            <div class="inlineBlock">
+                                <select id="searchType" name="searchType">
+                                  <option value="firstName">First Name</option>
+                                  <option value="lastName">Last Name</option>
+                                  <option value="email">Email</option>
+                                </select>
+                            </div>
+                            <div class="inlineBlock">
+                                <input id="searchString" name="searchString" type="text" class="form-control" placeholder="case insensitive"/>
+                                <%-- name for @RequestParam value --%>
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Search" class="btn btn-dark"/>   <%-- form:input tag requires path, use input tag when suitable --%>
+
+                        <form:form action="list" method="GET">
+                            <input id="showAllBtn" type="submit" value="Show All" class="btn btn-dark"/>
+                        </form:form>
+                    </form:form>
+
+
+                    <c:url var="sortLinkFirstName" value="/customer/list">
+                        <c:param name="sort" value="<%= Integer.toString(CustomerSortUtil.FIRST_NAME) %>" />
+                    </c:url>
+                    <c:url var="sortLinkLastName" value="/customer/list">
+                        <c:param name="sort" value="<%= Integer.toString(CustomerSortUtil.LAST_NAME) %>" />
+                    </c:url>
+                    <c:url var="sortLinkEmail" value="/customer/list">
+                        <c:param name="sort" value="<%= Integer.toString(CustomerSortUtil.EMAIL) %>" />
+                    </c:url>
+                    <div class="row colTitleRow">
                         <div class="col">
-                            <p class="colTitle">First Name</p>
+                            <a href="${sortLinkFirstName}" class="colTitle link-primary">First Name</a>
                         </div>
                         <div class="col">
-                            <p class="colTitle">Last Name</p>
+                            <a href="${sortLinkLastName}" class="colTitle link-primary">Last Name</a>
                         </div>
                         <div class="col">
-                            <p class="colTitle">Email</p>
+                            <a href="${sortLinkEmail}" class="colTitle link-primary">Email</a>
                         </div>
                         <div class="col">
                             <p class="colTitle">Action</p>
