@@ -4,13 +4,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>customer-tracker-springmvc</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <!--
+        standardize project structure src -> main -> java, resources, webapp
+                                          -> test -> java, resources
 
+        3 main sections, metadata, dependencies, plug-ins
+
+        archetype = starter file for maven, choose one when creating new maven project
+        maven-archetype-... , "quickstart" for general maven project, "webapp" for web applications
+    -->
+
+
+    <!-- metadata starts -->
+
+    <!-- project coordinates starts , for identifying a project -->
+    <groupId>org.example</groupId>  <!-- name of company, group, organization, convention is the reverse of domain -->
+    <artifactId>customer-tracker-springmvc</artifactId> <!-- name for the project -->
+    <version>1.1</version> <!-- "-SNAPSHOT" means project is under active development -->
+    <!-- project coordinates ends -->
+
+    <name>customer-tracker-springmvc</name>
+    <!-- optional package, name, url tags -->
+    <!-- metadata ends -->
+
+    <!-- never forget to update this for compiler setting -->
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -25,10 +46,26 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--
+        two major types of repositories, local, central
+        local repositories located in Users/{user-home-dir}/.m2/repository , works as local cache
+        remote repositories located on repo.maven.apache.org/maven2/ , requires network access
+        remote repositories found then saved as local repositories
+
+        also exists private repositories, e.g. shared inside company only, not open to public
+        need to set up own maven repository server, cloud as alternative
+    -->
+
     <dependencies>
         <dependency>
+            <!-- dependency coordinates starts -->
+
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
+            <!-- version is optional, but do always include for devops repeatable build -->
+            <!-- altogether regards as GAV, groupId + artifactId + version -->
+
+            <!-- dependency coordinates starts -->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -199,7 +236,59 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.9.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
+
+    <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

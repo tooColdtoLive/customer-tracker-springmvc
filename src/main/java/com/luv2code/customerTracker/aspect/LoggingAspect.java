@@ -31,7 +31,7 @@ public class LoggingAspect {
     }
 
     @AfterReturning(pointcut = "com.luv2code.customerTracker.aspect.PointCutExpressions.forAppFlow()", returning = "result")
-    public void afterDaoPackageAdvice(JoinPoint joinPoint, Object result){
+    public void afterAppFlowAdvice(JoinPoint joinPoint, Object result){
         String methodSignature = joinPoint.getSignature().toShortString();
 
         logger.info("End execution of " + methodSignature + (result == null ? " with void result" : " with result: " + result.toString()));
