@@ -3,10 +3,7 @@ package com.luv2code.customerTracker.config;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -24,6 +21,7 @@ import java.util.logging.Logger;
 
 @Configuration  // indicates the existence of @Bean definition methods, to have those being processed
 @EnableWebMvc   // enables springmvc, @Controller annotated class, replace <mvc:annotation-driven/> in servlet.xml
+@EnableAspectJAutoProxy // enables SpringAOP to use proxy
 @EnableTransactionManagement    // enables @Transactional
 @ComponentScan("com.luv2code.customerTracker")
 @PropertySource({ "classpath:persistence-mysql.properties" })
