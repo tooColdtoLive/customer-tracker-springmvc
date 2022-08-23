@@ -1,6 +1,7 @@
 package com.luv2code.customerTracker.rest;
 
 import com.luv2code.customerTracker.entity.Customer;
+import com.luv2code.customerTracker.exception.CustomerNotFoundException;
 import com.luv2code.customerTracker.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,12 @@ public class CustomerRestController {
 
     @GetMapping("/customers/{customerId}")
     public Customer getCustomersById(@PathVariable int customerId){
-        return customerService.getCustomer(customerId); // jackson phrase null object to empty JSON, user receive no msg
+        Customer customer = customerService.getCustomer(customerId);
+
+        if(customer == null){
+            throw new CustomerNotFoundException("Customer not found, id - " + customerId);
+        }
+
+        return customer; // jackson phrase null object to empty JSON, user receive no msg
     }
 }
