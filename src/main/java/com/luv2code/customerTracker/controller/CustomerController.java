@@ -63,8 +63,6 @@ public class CustomerController {
     @PostMapping("/saveCustomer")
     public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer,
                                BindingResult bindingResult){
-        System.out.println("BindingResult: " + bindingResult);
-
         if (bindingResult.hasErrors()) {    // not functioning
             return "customer-form";
         } else {

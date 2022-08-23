@@ -1,5 +1,6 @@
 package com.luv2code.customerTracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,10 +18,12 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) // to deal with conversion exception, failed so far
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_modified")
     private LocalDateTime lastModified;
 
