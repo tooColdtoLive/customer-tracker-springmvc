@@ -28,12 +28,12 @@ public class Customer {
     private LocalDateTime lastModified;
 
     @NotNull(message = "Required field missing")
-    @Pattern(regexp = "^[a-zA-Z ]", message = "Invalid character")
+    @Pattern(regexp = "^[a-zA-Z ]\\w+", message = "Invalid character")
     @Column(name = "first_name")
     private String firstName;
 
     @NotNull(message = "Required field missing")
-    @Pattern(regexp = "^[a-zA-Z ]", message = "Invalid character")
+    @Pattern(regexp = "^[a-zA-Z ]\\w+", message = "Invalid character")
     @Column(name = "last_name")
     private String lastName;
 

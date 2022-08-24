@@ -33,7 +33,7 @@ public class CustomerDAOImpl implements CustomerDAO{
         Session session = sessionFactory.getCurrentSession();
 
         for(Customer customer : customers){
-            session.saveOrUpdate(customer);
+            session.saveOrUpdate(customer); // if pk / id is empty (null or 0), INSERT, else UPDATE
         }
     }
 
