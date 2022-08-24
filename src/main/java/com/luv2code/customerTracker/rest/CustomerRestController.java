@@ -51,9 +51,14 @@ public class CustomerRestController {
     }
 
     @DeleteMapping("/customers/{customerId}")
-    public void deleteCustomers(@PathVariable int customerId){
+    public String deleteCustomers(@PathVariable int customerId){
+        Customer customer = customerService.getCustomer(customerId);
+        if(customer == null){
+            throw new CustomerNotFoundException("Customer not found, id - " + customerId);
+        }
+
         customerService.deleteCustomer(customerId);
 
-        // return customer; // jackson phrase null object to empty JSON, user receive no msg
+        return "Customer deleted, id - " + customerId;
     }
 }
