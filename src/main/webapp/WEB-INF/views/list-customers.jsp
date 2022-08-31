@@ -51,6 +51,11 @@
                         </form:form>
                     </form:form>
 
+                    <div class="logoutForm">
+                        <form:form action="${pageContext.request.contextPath}/logout" method="POST">
+                            <input type="submit" value="Logout" class="btn btn-dark"/>
+                        </form:form>
+                    </div>
 
                     <c:url var="sortLinkFirstName" value="/customer/list">
                         <c:param name="sort" value="<%= Integer.toString(CustomerSortUtil.FIRST_NAME) %>" />

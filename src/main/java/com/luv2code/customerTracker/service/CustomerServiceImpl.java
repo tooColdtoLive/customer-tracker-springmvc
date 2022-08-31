@@ -4,9 +4,9 @@ import com.luv2code.customerTracker.dao.CustomerDAO;
 import com.luv2code.customerTracker.entity.Customer;
 import com.luv2code.customerTracker.util.CustomerSortUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 // flow layers: Controller -> Service (business logic) -> DAO (data access)
@@ -17,31 +17,31 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerDAO customerDAO;
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public void saveOrUpdateCustomer(Customer customer) {
         customerDAO.saveOrUpdateCustomer(customer);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public void saveOrUpdateCustomers(List<Customer> customers) {
         customerDAO.saveOrUpdateCustomers(customers);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public Customer getCustomer(int customerId) {
         return customerDAO.getCustomer(customerId);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public List<Customer> getCustomers() {
         return getCustomers(CustomerSortUtil.LAST_NAME);
     }
 
     @Override
-    @Transactional  // to auto begin and to close a session transaction
+    @Transactional(value = "cusTransactionManager")  // to auto begin and to close a session transaction
     // @Transactional moved from DAO to service layer, to ensure DAO depends on service
     // also enable running multiple DAO methods in same transaction, good for rollback
     public List<Customer> getCustomers(int sort) {
@@ -49,25 +49,25 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public void deleteCustomer(int customerId) {
         customerDAO.deleteCustomer(customerId);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public void deleteCustomer(Customer customer) {
         customerDAO.deleteCustomer(customer);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public void deleteCustomers(List<Customer> customers) {
         customerDAO.deleteCustomers(customers);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "cusTransactionManager")
     public List<Customer> searchCustomer(String searchType, String searchString) {
         return customerDAO.searchCustomer(searchType, searchString);
     }

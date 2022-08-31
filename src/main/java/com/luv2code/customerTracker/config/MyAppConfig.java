@@ -44,35 +44,67 @@ public class MyAppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource myDataSource() {  // replace dataSource bean in servlet.xml
+    public DataSource cusDataSource() {  // replace dataSource bean in servlet.xml
 
         // create connection pool
-        ComboPooledDataSource myDataSource = new ComboPooledDataSource();
+        ComboPooledDataSource cusDataSource = new ComboPooledDataSource();
 
         // set the jdbc driver
         try {
-            myDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+            cusDataSource.setDriverClass(env.getProperty("jdbc.driver"));
         }
         catch (PropertyVetoException exc) {
             throw new RuntimeException(exc);
         }
 
         // for sanity's sake, let's log url and user ... just to make sure we are reading the data
-        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+        logger.info("jdbc.url=" + env.getProperty("jdbc.url.cus"));
+        logger.info("jdbc.user=" + env.getProperty("jdbc.user.cus"));
 
         // set database connection props
-        myDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        myDataSource.setUser(env.getProperty("jdbc.user"));
-        myDataSource.setPassword(env.getProperty("jdbc.password"));
+        cusDataSource.setJdbcUrl(env.getProperty("jdbc.url.cus"));
+        cusDataSource.setUser(env.getProperty("jdbc.user.cus"));
+        cusDataSource.setPassword(env.getProperty("jdbc.password.cus"));
 
         // set connection pool props
-        myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
-        myDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
-        myDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
-        myDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+        cusDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
+        cusDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+        cusDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+        cusDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
 
-        return myDataSource;
+        return cusDataSource;
+    }
+
+    @Bean
+    public DataSource securityDataSource() {  // replace dataSource bean in servlet.xml
+
+        // create connection pool
+        ComboPooledDataSource userDataSource = new ComboPooledDataSource();
+
+        // set the jdbc driver
+        try {
+            userDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+        }
+        catch (PropertyVetoException exc) {
+            throw new RuntimeException(exc);
+        }
+
+        // for sanity's sake, let's log url and user ... just to make sure we are reading the data
+        logger.info("jdbc.url=" + env.getProperty("jdbc.url.user"));
+        logger.info("jdbc.user=" + env.getProperty("jdbc.user.user"));
+
+        // set database connection props
+        userDataSource.setJdbcUrl(env.getProperty("jdbc.url.user"));
+        userDataSource.setUser(env.getProperty("jdbc.user.user"));
+        userDataSource.setPassword(env.getProperty("jdbc.password.user"));
+
+        // set connection pool props
+        userDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
+        userDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+        userDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+        userDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+
+        return userDataSource;
     }
 
     private int getIntProperty(String propName) {
@@ -97,13 +129,27 @@ public class MyAppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory(){    // replace sessionFactory bean in servlet.xml, for @Transactional
+    public LocalSessionFactoryBean cusSessionFactory(){    // replace sessionFactory bean in servlet.xml, for @Transactional
 
         // create session factory
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
         // set the properties
-        sessionFactory.setDataSource(myDataSource());
+        sessionFactory.setDataSource(cusDataSource());
+        sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
+        sessionFactory.setHibernateProperties(getHibernateProperties());
+
+        return sessionFactory;
+    }
+
+    @Bean
+    public LocalSessionFactoryBean securitySessionFactory(){    // replace sessionFactory bean in servlet.xml, for @Transactional
+
+        // create session factory
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+
+        // set the properties
+        sessionFactory.setDataSource(securityDataSource());
         sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
         sessionFactory.setHibernateProperties(getHibernateProperties());
 
@@ -112,11 +158,22 @@ public class MyAppConfig implements WebMvcConfigurer {
 
     @Bean
     @Autowired  // sessionFactory
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {  // replace transactionManager bean in servlet.xml, for @Transactional
+    public HibernateTransactionManager cusTransactionManager(SessionFactory cusSessionFactory) {  // replace transactionManager bean in servlet.xml, for @Transactional
 
         // setup transaction manager based on session factory
         HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
+        txManager.setSessionFactory(cusSessionFactory);
+
+        return txManager;
+    }
+
+    @Bean
+    @Autowired  // sessionFactory
+    public HibernateTransactionManager securityTransactionManager(SessionFactory securitySessionFactory) {  // replace transactionManager bean in servlet.xml, for @Transactional
+
+        // setup transaction manager based on session factory
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(securitySessionFactory);
 
         return txManager;
     }

@@ -80,3 +80,19 @@ html, body{
 .goBackHref{
     margin-top: 15px;
 }
+
+.login-input-group{
+    width: 300px;
+}
+
+.login-input-group-text{
+    height: 38px;
+}
+
+.logoutForm{
+    margin-top: 15px;
+}
+
+.invalid{
+    color: red;
+}

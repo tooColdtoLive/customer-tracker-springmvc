@@ -21,16 +21,16 @@ import java.util.Locale;
 public class CustomerDAOImpl implements CustomerDAO{
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private SessionFactory cusSessionFactory;
 
     @Override
     public void saveOrUpdateCustomer(Customer customer) {
-        sessionFactory.getCurrentSession().saveOrUpdate(customer);
+        cusSessionFactory.getCurrentSession().saveOrUpdate(customer);
     }
 
     @Override
     public void saveOrUpdateCustomers(List<Customer> customers) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = cusSessionFactory.getCurrentSession();
 
         for(Customer customer : customers){
             session.saveOrUpdate(customer); // if pk / id is empty (null or 0), INSERT, else UPDATE
@@ -39,7 +39,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public Customer getCustomer(int customerId) {
-        return sessionFactory.getCurrentSession().get(Customer.class, customerId);
+        return cusSessionFactory.getCurrentSession().get(Customer.class, customerId);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class CustomerDAOImpl implements CustomerDAO{
                 break;
         }
 
-        return sessionFactory.getCurrentSession().createQuery("from Customer order by " + sortColumn, Customer.class).getResultList();
+        return cusSessionFactory.getCurrentSession().createQuery("from Customer order by " + sortColumn, Customer.class).getResultList();
     }
 
     @Override
     public void deleteCustomer(int customerId) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = cusSessionFactory.getCurrentSession();
 
         Query query = session.createQuery("delete from Customer where id=:customerId");
         query.setParameter("customerId", customerId);
@@ -77,12 +77,12 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public void deleteCustomer(Customer customer) {
-        sessionFactory.getCurrentSession().remove(customer);
+        cusSessionFactory.getCurrentSession().remove(customer);
     }
 
     @Override
     public void deleteCustomers(List<Customer> customers) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = cusSessionFactory.getCurrentSession();
 
         for(Customer customer : customers){
             session.remove(customer);
@@ -91,7 +91,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public List<Customer> searchCustomer(String searchType, String searchString) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = cusSessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
